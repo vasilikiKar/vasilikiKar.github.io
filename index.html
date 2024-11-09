@@ -8,21 +8,177 @@
     <link rel="stylesheet" href="index.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+
 </head>
 
 <body>
-    <section class="action-buttons">
-        <button type="button" class="btn btn-outline-success">Add vertex</button>
-        <button type="button" class="btn btn-outline-success">Add edge</button>
-        <button type="button" class="btn btn-outline-danger">Delete vertex</button>
-        <button type="button" class="btn btn-outline-danger">Delete edge</button>
-        <button type="button" class="clear-button btn btn-outline-danger">Clear all</button>
-    </section>
+    <div class="app-container">
+        <div class="main-section">
+            <section class="action-buttons">
+                <button type="button" class="btn btn-secondary graph-input">Input Graph</button>
+                <button type="button" class="btn btn-secondary random-graph-creation">Create Random Graph</button>
+                <div class="euler-actions">
+                    <button type="button" class="btn btn-secondary">Find Euler Cycle</button>
+                    <button type="button" class="btn btn-secondary">Find Euler Path</button>
+                </div>
+                <button type="button" class="save-button btn btn-success">Save Graph</button>
+            </section>
 
-    <section class="canvas-section">
-        <canvas id="myCanvas"></canvas>
-    </section>
+            <div>
+                <section class="graph-draw-buttons">
+                    <button type="button" class="btn btn-outline-success add-vertex-button">Add vertex</button>
+                    <button type="button" class="btn btn-outline-success">Add edge</button>
+                    <button type="button" class="btn btn-outline-danger delete-vertex-button">Delete vertex</button>
+                    <button type="button" class="btn btn-outline-danger delete-edge-button">Delete edge</button>
+                    <button type="button" id="clear_button" class="clear-button btn btn-outline-danger">Clear
+                        all</button>
+                </section>
 
+                <section class="canvas-section" id="canvas-section">
+                </section>
+
+                <!-- Create Random Graph Modal -->
+                <div class="modal fade" id="randomGraphModal" tabindex="-1" aria-labelledby="randomGraphModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="randomGraphModalLabel">Create Random Graph</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="randomGraphForm">
+                                    <div class="mb-3">
+                                        <label for="verticesInput" class="form-label">Number of Vertices:</label>
+                                        <input type="number" class="form-control" id="verticesInput" required>
+                                        <div id="verticesError" class="text-danger"></div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Graph Type:</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="graphType"
+                                                id="directedGraph" value="directed">
+                                            <label class="form-check-label" for="directedGraph">Directed</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="graphType"
+                                                id="undirectedGraph" value="undirected">
+                                            <label class="form-check-label" for="undirectedGraph">Undirected</label>
+                                        </div>
+                                        <div id="graphTypeError" class="text-danger"></div>
+                                    </div>
+                                    <button type="submit" class="btn btn-success submit-graph-creation">Create
+                                        Graph</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Create Input Graph Modal -->
+            <div class="modal fade" id="inputGraphModal" tabindex="-1" aria-labelledby="inputGraphModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="inputGraphModalLabel">Input Graph</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="inputGraphForm">
+                                <div class="mb-3">
+                                    <label class="form-label">Using:</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="graphFormat"
+                                            id="adjacencyMatrix" value="adjacency">
+                                        <label class="form-check-label" for="adjacencyMatrix">Adjacency matrix</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="graphFormat"
+                                            id="incidenceMatrix" value="incidence">
+                                        <label class="form-check-label" for="incidenceMatrix">Incidence
+                                            matrix</label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-success submit-graph-creation">Plot
+                                    Graph</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Create Input Graph from adjaceny matric Modal -->
+            <div class="modal fade" id="adjacencyMatrixModal" tabindex="-1" aria-labelledby="adjacencyMatrixModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="adjacencyMatrixModalLabel">Creating graph from adjacency matrix
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="inputAdjacencyGraphForm">
+                                <div class="mb-3">
+                                    <label class="form-label">Enter adjacency matrix. Use comma "," as separator and
+                                        click "Plot Graph".</label>
+                                    <textarea class="form-control" id="adjacencyMatrixInput" rows="5" placeholder="Example:
+0, 1, 0 
+1, 0, 0
+0, 1, 0"></textarea>
+                                    <div id="adjacencyMatrixError" class="text-danger"></div>
+                                </div>
+                                <button type="submit" class="btn btn-success submit-graph-creation">Plot
+                                    Graph</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Create Input Graph from incidence matric Modal -->
+            <div class="modal fade" id="incidenceMatrixModal" tabindex="-1" aria-labelledby="incidenceMatrixModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="incidenceMatrixModalLabel">Creating graph from incidence matrix
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="inputIncidenceGraphForm">
+                                <div class="mb-3">
+                                    <label class="form-label">Enter incidence matrix. Use comma "," as separator and
+                                        click "Plot Graph".</label>
+                                    <textarea class="form-control" id="incidenceMatrixInput" rows="5" placeholder="Example:
+1, 0 
+1, 1
+0, -1"></textarea>
+                                    <div id="incidenceMatrixError" class="text-danger"></div>
+                                </div>
+                                <button type="submit" class="btn btn-success submit-graph-creation">Plot
+                                    Graph</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <script src="https://d3js.org/d3.v6.min.js"></script>
+            <script src="random_graph_generator.js"></script>
 
 </body>
 

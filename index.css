@@ -1,22 +1,42 @@
-.action-buttons {
+.app-container {
+  padding: 0 25px;
+  margin: 0 auto;
+  box-shadow: 0 0 6px #ccc;
+  width: 1200px; }
+  .app-container .main-section {
     display: flex;
-    justify-content: space-between;
+    gap: 20px; }
+    .app-container .main-section .action-buttons {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 25%;
+      margin-top: 50px; }
+      .app-container .main-section .action-buttons button {
+        margin-bottom: 10px; }
+      .app-container .main-section .action-buttons .euler-actions {
+        margin-top: 50px; }
+        .app-container .main-section .action-buttons .euler-actions button {
+          width: 100%; }
+      .app-container .main-section .action-buttons .save-button {
+        margin-top: auto; }
+    .app-container .main-section .graph-draw-buttons {
+      display: flex;
+      justify-content: space-between; }
+      .app-container .main-section .graph-draw-buttons button {
+        margin-right: 10px; }
+      .app-container .main-section .graph-draw-buttons .clear-button {
+        margin-left: auto; }
+    .app-container .main-section .canvas-section {
+      border: 1px solid #000000;
+      height: 600px;
+      width: 900px;
+      margin-top: 4px; }
+    .app-container .main-section .submit-graph-creation {
+      width: 100%; }
 
-    button {
-        margin-right: 10px;
-    }
+.toast-class {
+  background-color: #dff0d8 !important;
+  color: #63803d !important; }
 
-    .clear-button {
-        margin-left: auto;
-    }
-}
-
-.canvas-section {
-    #myCanvas {
-        border: 1px solid #000000;
-        height: 600px;
-        width: 80%;
-        margin-top: 4px;
-    }
-
-}
+/*# sourceMappingURL=index.css.map */
